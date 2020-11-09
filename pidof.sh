@@ -4,7 +4,7 @@
 NOPROCESS=2
 
 process=xxxyyyzzz  # Use nonexistent process.
-# For demo purposes only...
+
 # ... don't want to actually kill any actual process with this script.
 #
 # If, for example, you wanted to use this script to logoff the Internet,
