@@ -1,7 +1,8 @@
+
 #!/bin/bash
 
 SERVER=$HOST                           # localhost.localdomain (127.0.0.1).
-PORT_NUMBER=25                         # SMTP port.
+PORT_NUMBER=8080                        # HTTPS port.
 
 nmap $SERVER | grep -w "$PORT_NUMBER"  # Is that particular port open?
 #              grep -w matches whole words only,
