@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 SERVER=$HOST                           # localhost.localdomain (127.0.0.1).
