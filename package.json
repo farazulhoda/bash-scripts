@@ -1,0 +1,24 @@
+{
+  "name": "bash-scripts",
+  "version": "1.0.0",
+  "description": "Bash Scripts",
+  "main": "/src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farazulhoda/bash-scripts.git"
+  },
+  "keywords": [
+    "shell",
+    "bash",
+    "npm"
+  ],
+  "author": "farazul Hoda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/farazulhoda/bash-scripts/issues"
+  },
+  "homepage": "https://github.com/farazulhoda/bash-scripts#readme"
+}
