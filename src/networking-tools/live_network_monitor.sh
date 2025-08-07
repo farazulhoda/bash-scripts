@@ -49,5 +49,5 @@ while true; do
     echo "│ Packets Captured:      $PKTS                                       │"
     echo "└───────────────────────────────────────────────────────────────────┘"
     
-    sleep 1
+    sleep 0
 done

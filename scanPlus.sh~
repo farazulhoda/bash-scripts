@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Enter the target IP address:"
+read target
+
+echo "Enter the starting port number:"
+echo "Enter the ending port number:"
+read end
+
+for port in $(seq $start $end); do
+  (echo >/dev/tcp/$target/$port) &>/dev/null && echo "$port is open"
+done
+
