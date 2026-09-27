@@ -6,6 +6,12 @@ REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || echo 
 # shellcheck source=/dev/null
 source "$REPO_ROOT/lib/audit_log.sh"
 
+# Scan output never lives inside the repo — it's reconnaissance data, not
+# source, and a repo directory risks it getting swept up by `git add -A`.
+OUTPUT_DIR="${HOST_SCAN_OUTPUT_DIR:-$HOME/.local/share/bash-scripts/host_scan}"
+mkdir -p "$OUTPUT_DIR"
+chmod 700 "$OUTPUT_DIR"
+
 clear
 read -rp "Enter a host: " HOST
 
@@ -16,12 +22,15 @@ if ! [[ "$HOST" =~ ^[a-zA-Z0-9._-]+$ ]]; then
     exit 1
 fi
 
-curl --silent --insecure "https://sonar.omnisint.io/subdomains/${HOST}" > "$SCRIPT_DIR/subdomains1.txt"
-exit_code=$?
-grep -oE "[a-zA-Z0-9._-]+\.${HOST}" "$SCRIPT_DIR/subdomains1.txt" | sort -u > "$SCRIPT_DIR/subdomains2.txt"
-chmod 600 "$SCRIPT_DIR/subdomains1.txt" "$SCRIPT_DIR/subdomains2.txt"
+RAW_FILE="$OUTPUT_DIR/${HOST}.raw.txt"
+RESULT_FILE="$OUTPUT_DIR/${HOST}.subdomains.txt"
 
-num_subdomains=$(wc -l < "$SCRIPT_DIR/subdomains2.txt")
-echo "found: $num_subdomains subdomains"
+curl --silent --insecure "https://sonar.omnisint.io/subdomains/${HOST}" > "$RAW_FILE"
+exit_code=$?
+grep -oE "[a-zA-Z0-9._-]+\.${HOST}" "$RAW_FILE" | sort -u > "$RESULT_FILE"
+chmod 600 "$RAW_FILE" "$RESULT_FILE"
+
+num_subdomains=$(wc -l < "$RESULT_FILE")
+echo "found: $num_subdomains subdomains (saved to $RESULT_FILE)"
 
 audit_log "host.sh" "subdomain_enum" "$HOST" "$exit_code"

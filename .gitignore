@@ -1,0 +1,12 @@
+# OS metadata
+.DS_Store
+
+# Editor swap/backup files
+*.swp
+*~
+\#*\#
+
+# Script-generated output (scan results, captures, etc.) — never commit
+# reconnaissance/network data to version control.
+*.pcap
+subdomains*.txt
