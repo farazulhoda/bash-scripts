@@ -36,7 +36,11 @@ cleanup() {
 # Trap the SIGINT (Ctrl+C) signal to clean up properly
 trap cleanup SIGINT
 
-# Start tcpdump in the background to monitor packets
+# Start tcpdump in the background to monitor packets. Requires either
+# full sudo rights or membership in the "netmon" group under the scoped
+# policy in config/sudoers.d/bash-scripts-network-tools (see
+# scripts/install-sudoers-policy.sh) — the latter is preferred so
+# operators don't need blanket root access just to run this script.
 sudo tcpdump -i "$INTERFACE" -w /dev/null &
 
 # Start vnstat in live mode in the background
