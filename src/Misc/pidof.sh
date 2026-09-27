@@ -10,7 +10,7 @@ process=xxxyyyzzz  # Use nonexistent process.
 # If, for example, you wanted to use this script to logoff the Internet,
 #     process=pppd
 
-t=`pidof $process`       # Find pid (process id) of $process.
+t=$(pidof "$process")       # Find pid (process id) of $process.
 # The pid is needed by 'kill' (can't 'kill' by program name).
 
 if [ -z "$t" ]           # If process not present, 'pidof' returns null.
@@ -20,7 +20,7 @@ then
   exit $NOPROCESS
 fi  
 
-kill $t                  # May need 'kill -9' for stubborn process.
+kill "$t"                  # May need 'kill -9' for stubborn process.
 
 # Need a check here to see if process allowed itself to be killed.
 # Perhaps another " t=`pidof $process` " or ...

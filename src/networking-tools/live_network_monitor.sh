@@ -12,7 +12,7 @@ INTERFACE=$(ip route | grep default | awk '{print $5}')
 # silently sudo-install packages, since unreviewed installs on a system
 # with audit/monitoring requirements need a change record, not a script.
 for tool in vnstat tcpdump; do
-    if ! command -v $tool &> /dev/null; then
+    if ! command -v "$tool" &> /dev/null; then
         echo "$tool is not installed. Install it yourself (via your package manager and change process) and re-run." >&2
         audit_log "live_network_monitor.sh" "start" "$INTERFACE" 127
         exit 127
@@ -33,10 +33,10 @@ cleanup() {
 trap cleanup SIGINT
 
 # Start tcpdump in the background to monitor packets
-sudo tcpdump -i $INTERFACE -w /dev/null &
+sudo tcpdump -i "$INTERFACE" -w /dev/null &
 
 # Start vnstat in live mode in the background
-vnstat -i $INTERFACE --live 1 > /tmp/vnstat_output &
+vnstat -i "$INTERFACE" --live 1 > /tmp/vnstat_output &
 
 # Live updating display similar to htop
 while true; do
@@ -47,7 +47,7 @@ while true; do
     TX=$(grep "tx" /tmp/vnstat_output | tail -n 1 | awk '{print $2}')
     
     # Fetch packet count from tcpdump (simulated)
-    PKTS=$(sudo tcpdump -i $INTERFACE -c 1 2>&1 | grep -oP '\d+ packets captured')
+    PKTS=$(sudo tcpdump -i "$INTERFACE" -c 1 2>&1 | grep -oP '\d+ packets captured')
 
     # Display a dashboard
     echo "┌───────────────────────────────────────────────────────────────────┐"
