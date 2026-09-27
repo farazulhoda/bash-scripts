@@ -4,9 +4,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || echo "$SCRIPT_DIR")"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/lib/audit_log.sh"
+# shellcheck source=/dev/null
+source "$REPO_ROOT/lib/authorization.sh"
 
 # Detect the active network interface automatically
 INTERFACE=$(ip route | grep default | awk '{print $5}')
+
+require_authorization "live_network_monitor.sh" "$INTERFACE"
 
 # Check if necessary tools are installed. This only warns — it does not
 # silently sudo-install packages, since unreviewed installs on a system

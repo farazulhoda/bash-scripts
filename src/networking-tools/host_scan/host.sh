@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || echo "$SCRIPT_DIR")"
 # shellcheck source=/dev/null
 source "$REPO_ROOT/lib/audit_log.sh"
+# shellcheck source=/dev/null
+source "$REPO_ROOT/lib/authorization.sh"
 
 # Scan output never lives inside the repo — it's reconnaissance data, not
 # source, and a repo directory risks it getting swept up by `git add -A`.
@@ -21,6 +23,8 @@ if ! [[ "$HOST" =~ ^[a-zA-Z0-9._-]+$ ]]; then
     echo "Invalid host: $HOST" >&2
     exit 1
 fi
+
+require_authorization "host.sh" "$HOST"
 
 RAW_FILE="$OUTPUT_DIR/${HOST}.raw.txt"
 RESULT_FILE="$OUTPUT_DIR/${HOST}.subdomains.txt"

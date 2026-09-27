@@ -1,0 +1,14 @@
+# Approved targets for scan/capture scripts (nmap.sh, host.sh, scanPlus.sh,
+# live_network_monitor.sh). One entry per line.
+#
+# - Exact hostnames, IPs, or network interface names are matched as-is.
+# - Glob patterns are supported, e.g. 10.0.0.*, *.internal.example.com.
+# - Lines starting with # are comments.
+#
+# Every scan/capture run also requires AUTHORIZED_TICKET to be set to a
+# change/work-order reference — this file alone does not authorize a run.
+# Keep this list under change control: additions should map to an actual
+# approved engagement or maintenance window, not be added ad hoc.
+
+127.0.0.1
+localhost
