@@ -1,0 +1,21 @@
+# Sudoers policy for bash-scripts network-monitoring tools.
+#
+# This exists so operators of live_network_monitor.sh don't need blanket
+# sudo rights just to run one script. It scopes passwordless root access
+# to exactly the two tcpdump invocations that script uses (packet capture
+# to /dev/null, and a 1-packet count), for members of the "netmon" group
+# only. vnstat is not listed here — the script runs it without sudo.
+#
+# Install (as root, after review):
+#   visudo -cf config/sudoers.d/bash-scripts-network-tools
+#   install -m 0440 -o root -g root \
+#     config/sudoers.d/bash-scripts-network-tools \
+#     /etc/sudoers.d/bash-scripts-network-tools
+#
+# Add operators to the group: usermod -aG netmon <username>
+#
+# Adjust the binary path below to match your distro if `command -v
+# tcpdump` resolves elsewhere.
+
+%netmon ALL=(root) NOPASSWD: /usr/sbin/tcpdump -i * -w /dev/null
+%netmon ALL=(root) NOPASSWD: /usr/sbin/tcpdump -i * -c 1
